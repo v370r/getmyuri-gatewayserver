@@ -8,3 +8,21 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
+
+# JWT Configuration
+jwt:
+  secret: "YourSuperSecretKeyThatIsVeryLongAndSecure7777777777777777777777777777777" # Replace with a strong, long, random secret in production
+  access-token:
+    expiration-ms: 3600000 # 1 hour
+  refresh-token:
+    expiration-ms: 604800000 # 7 days
+
+# SpringDoc OpenAPI (Swagger) Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs # Default path for API documentation JSON
+  swagger-ui:
+    path: /swagger-ui.html # Default path for Swagger UI
+    # You can add more swagger-ui configurations here if needed
+    # e.g., operationsSorter: method, tagsSorter: alpha
+  show-actuator: true # Optionally show actuator endpoints in Swagger
