@@ -1,5 +1,7 @@
 package com.getmyuri.gatewayservice.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +11,8 @@ import java.util.function.Predicate;
 @Component
 public class RouterValidator {
 
+    private static final Logger logger = LoggerFactory.getLogger(RouterValidator.class);
+
     public static final List<String> openApiEndpoints = List.of(
             "/userauth/register",
             "/userauth/token",
@@ -16,8 +20,12 @@ public class RouterValidator {
     );
 
     public Predicate<ServerHttpRequest> isSecured =
-            request -> openApiEndpoints
-                    .stream()
-                    .noneMatch(uri -> request.getURI().getPath().contains(uri));
+            request -> {
+                boolean secured = openApiEndpoints
+                        .stream()
+                        .noneMatch(uri -> request.getURI().getPath().contains(uri));
+                logger.info("Request URI: " + request.getURI().getPath() + ", isSecured: " + secured);
+                return secured;
+            };
 
 }
